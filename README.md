@@ -9,13 +9,27 @@ Note that `scope` is optional, and the `issues` (if provided) should match a JIR
 
 ## Usage
 
-Simply install as a dev dependency and create a hook on `commit-msg`:
+Simply install as a dev dependency:
+
+```bash
+$ npm install --save-dev buenos-commit-msg
+```
+
+and create a hook on `commit-msg` (i.e. `.git/hooks/commit-msg`):  
+**note:** make sure the file is executable (`$ chmod +x path/to/file`)  
 
 ```javascript
 #!/usr/bin/env node
 
-require('buenos-commit-msg').hook();
+try {
+    require('../..').hook();
+} catch (e) {
+    console.log(e.message);
+    process.exit(1);
+}
 ```
+
+See https://www.npmjs.com/package/git-hooks for a cool implementation of git-hooks.
 
 ## Configuration
 
@@ -58,7 +72,7 @@ Set to an empty array to allow any scope.
 
 Allows customizing the error messages.
 
-The following errors are specified:
+The following errors are specified and can be overwritten:
 
 ```
 {
@@ -77,6 +91,8 @@ The following errors are specified:
 ```
 
 Note that `%types%` and `%scopes%` will be replaced with a joined value of types and scopes for errors `TYPE_INVALID` and `SCOPE_INVALID`.
+
+Also note that any errors that you don't specify will always be filled from the default config.
 
 ## API
 
