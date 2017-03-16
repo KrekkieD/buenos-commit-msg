@@ -1,6 +1,6 @@
 {
   "name": "buenos-commit-msg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Commit message validator",
   "main": "index.js",
   "scripts": {
