@@ -1,0 +1,5 @@
+{
+  "extend": true,
+  "types": ["customType1", "customType2"],
+  "scopes": ["customScope1", "customScope2"]
+}

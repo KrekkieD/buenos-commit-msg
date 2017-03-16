@@ -1,59 +1,19 @@
-// TODO: read allowed types from JSON
-// TODO: read allowed scopes from JSON
-
-const ALLOWED_TYPES = 'bugfix|build|ci|docs|feature|format|merge|perf|refactor|style|test|version'.split('|');
-
-const ERRORS = {
-    TYPE_AND_SUBJECT_REQUIRED: {
-        code: 'TYPE_AND_SUBJECT_REQUIRED',
-        message: 'At least a type and subject is required'
-    },
-    TYPE_SCOPE_MALFORMED: {
-        code: 'TYPE_SCOPE_MALFORMED',
-        message: 'Type and scope should be formatted as \'type(scope):\''
-    },
-    REQUIRE_SPACE_AFTER_COLON: {
-        code: 'REQUIRE_SPACE_AFTER_COLON',
-        message: 'add a space before subject'
-    },
-    NO_SPACE_BEFORE_COLON: {
-        code: 'NO_SPACE_BEFORE_COLON',
-        message: 'no space before the colon'
-    },
-    SUBJECT_ISSUE_MALFORMED: {
-        code: 'SUBJECT_ISSUE_MALFORMED',
-        message: 'Subject and issue should be formatted as \'some subject ISS-123\''
-    },
-    JIRA_ISSUE_CAPITALIZED: {
-        code: 'JIRA_ISSUE_CAPITALIZED',
-        message: 'JIRA reference should be in full caps'
-    },
-    SUBJECT_REQUIRED: {
-        code: 'SUBJECT_REQUIRED',
-        message: 'Subject is required, even if a JIRA issue is provided'
-    },
-    SUBJECT_DONT_END_ON_CHARS: {
-        code: 'SUBJECT_DONT_END_ON_CHARS',
-        message: 'Subject should not end on dot (.) or colon (:)'
-    },
-    TYPE_INVALID: {
-        code: 'TYPE_INVALID',
-        message: `Type should be one of: "${ALLOWED_TYPES.join('", "')}"`
-    },
-    SCOPE_EMPTY: {
-        code: 'SCOPE_EMPTY',
-        message: 'Scope should have a value or be left out entirely'
-    }
-};
+const $configure = require('./configure');
 
 module.exports = {
-    ERRORS: ERRORS,
     validate: validate
 };
 
-function validate (commitMessage) {
+function validate (commitMessage, config) {
+
+    config = $configure.configure(config);
+
+    const TYPES = config.types;
+    const SCOPES = config.scopes;
+    const ERRORS = config.errors;
 
     const parsedCommitMessage = {
+        config: config,
         full: commitMessage,
         firstLine: commitMessage.split(/\r\n|\r|\n/).shift()
     };
@@ -110,12 +70,20 @@ function validate (commitMessage) {
     }
 
     // verify type is one of the allowed types
-    if (ALLOWED_TYPES.indexOf(parsedCommitMessage.type) === -1) {
+    if (TYPES && TYPES.length && TYPES.indexOf(parsedCommitMessage.type) === -1) {
         _reject(ERRORS.TYPE_INVALID);
     }
 
-    if (!parsedCommitMessage.scope && typeof parsedCommitMessage.scope !== 'undefined') {
-        _reject(ERRORS.SCOPE_EMPTY);
+    if (typeof parsedCommitMessage.scope !== 'undefined') {
+        // confirm scope is not empty (falsy)
+        if (!parsedCommitMessage.scope) {
+            _reject(ERRORS.SCOPE_EMPTY);
+        }
+
+        // confirm scope is one of the allowed types
+        if (SCOPES && SCOPES.length && SCOPES.indexOf(parsedCommitMessage.scope) === -1) {
+            _reject(ERRORS.SCOPE_INVALID);
+        }
     }
 
     return parsedCommitMessage;

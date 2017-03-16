@@ -5,6 +5,8 @@ Validates your commit message format to match the format:
 <type>(<scope>): <subject> <issue>
 ```
 
+Note that `scope` is optional, and the `issues` (if provided) should match a JIRA format (i.e. `ABC-123`).
+
 ## Usage
 
 Simply install as a dev dependency and create a hook on `commit-msg`:
@@ -12,7 +14,7 @@ Simply install as a dev dependency and create a hook on `commit-msg`:
 ```javascript
 #!/usr/bin/env node
 
-require('buenos-commit-msg');
+require('buenos-commit-msg').hook();
 ```
 
 ## Configuration
@@ -21,6 +23,7 @@ It's possible to configure the allowed `type` and `scope` properties by creating
 
 ```json
 {
+  "extend": true,
   "types": [
     "customType1",
     "customType2"
@@ -28,8 +31,76 @@ It's possible to configure the allowed `type` and `scope` properties by creating
   "scopes": [
     "customScope1",
     "customScope2"
-  ]
+  ],
+  "errors": {
+    "TYPE_AND_SUBJECT_REQUIRED": "Type and subject is required"
+  }
 }
 ```
 
-By default any `scope` is valid, and `type` is restricted to one of `bugfix`, `build`, `ci`, `docs`, `feature`, `format`, `merge`, `perf`, `refactor`, `style`, `test`, `version`.
+### extend
+
+When `false` the `types` and `scopes` will be overwritten with your values. When `true` or unspecified the `types` and `scopes` you've defined will be added to the default values.
+
+### types
+
+A case-sensitive array of allowed types. Default values are `bugfix`, `build`, `ci`, `docs`, `feature`, `format`, `merge`, `perf`, `refactor`, `style`, `test`, `version`.
+
+Set to an empty array to allow any type.
+
+### scopes
+
+A case-sensitive array of allowed scopes. By default all values are allowed.
+
+Set to an empty array to allow any scope.
+
+### errors
+
+Allows customizing the error messages.
+
+The following errors are specified:
+
+```
+{
+    TYPE_AND_SUBJECT_REQUIRED: 'At least a type and subject is required',
+    TYPE_SCOPE_MALFORMED: 'Type and scope should be formatted as \'type(scope):\'',
+    REQUIRE_SPACE_AFTER_COLON: 'add a space before subject',
+    NO_SPACE_BEFORE_COLON: 'no space before the colon',
+    SUBJECT_ISSUE_MALFORMED: 'Subject and issue should be formatted as \'some subject ISS-123\'',
+    JIRA_ISSUE_CAPITALIZED: 'JIRA reference should be in full caps',
+    SUBJECT_REQUIRED: 'Subject is required, even if a JIRA issue is provided',
+    SUBJECT_DONT_END_ON_CHARS: 'Subject should not end on dot (.) or colon (:)',
+    TYPE_INVALID:  `Type should be one of: %types%`,
+    SCOPE_INVALID:`Type should be one of: %scopes%`,
+    SCOPE_EMPTY: 'Scope should have a value or be left out entirely'
+}
+```
+
+Note that `%types%` and `%scopes%` will be replaced with a joined value of types and scopes for errors `TYPE_INVALID` and `SCOPE_INVALID`.
+
+## API
+
+### hook()
+
+Runs the validator, uses the git commit message as provided by git and uses a config file if it finds one, or falls back to the default config.
+
+This is probably what you want for your git hook.
+
+### getCommitMessage()
+
+Retrieves the commit message as provided by git. Can be useful if you want a fancier git hook.
+
+### configure(config = undefined)
+
+Creates and returns a configuration object that can be used in `validate()`. 
+
+When `config` argument is not provided it will use the default config combined with a custom config file if it finds one.
+
+When `config` is an object it will use that.
+
+### validate(commitMessage, config = undefined)
+
+Validates the commitMessage using the provided configuration object. If no config is specified the default config will be used.
+
+It will return the validation object when the message was successfully validated, or will throw an error when a validation error has occured.
+

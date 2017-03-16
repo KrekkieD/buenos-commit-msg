@@ -1,0 +1,7 @@
+{
+  "extend": true,
+  "errors": {
+    "TYPE_INVALID": "custom error %types%",
+    "SCOPE_INVALID" :"custom error %scopes%"
+  }
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+try {
+    require('../..').hook();
+} catch (e) {
+    console.log(e.message);
+    process.exit(1);
+}
