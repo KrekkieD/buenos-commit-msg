@@ -22,7 +22,7 @@ and create a hook on `commit-msg` (i.e. `.git/hooks/commit-msg`):
 #!/usr/bin/env node
 
 try {
-    require('../..').hook();
+    require('buenos-commit-msg').hook();
 } catch (e) {
     console.log(e.message);
     process.exit(1);
