@@ -1,0 +1,15 @@
+{
+  "name": "buenos-commit-msg",
+  "version": "1.0.0",
+  "description": "Commit message validator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:KrekkieD/buenos-commit-msg.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
