@@ -120,3 +120,6 @@ Validates the commitMessage using the provided configuration object. If no confi
 
 It will return the validation object when the message was successfully validated, or will throw an error when a validation error has occured.
 
+---
+
+Derived from the Angular [Commit Messages Guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit)
