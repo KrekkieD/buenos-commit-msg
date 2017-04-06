@@ -54,7 +54,7 @@ It's possible to configure the allowed `type` and `scope` properties by creating
 
 ### extend
 
-When `false`, the `types` and `scopes` will be overwritten with your values. When `true`, or unspecified the `types` and `scopes` you've defined will be added to the default values.
+When `false`, the `types` and `scopes` will be overwritten with your values. When `true` or unspecified, the `types` and `scopes` you've defined will be added to the default values.
 
 ### types
 
