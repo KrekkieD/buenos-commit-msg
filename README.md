@@ -5,7 +5,7 @@ Validates your commit message format to match the format:
 <type>(<scope>): <subject> <issue>
 ```
 
-Note that `scope` is optional, and the `issues` (if provided) should match a JIRA format (i.e. `ABC-123`).
+Note that `scope` is optional, and the `issues` (if provided) should match a JIRA format (i.e. `ISS-123`).
 
 ## Usage
 
@@ -54,7 +54,7 @@ It's possible to configure the allowed `type` and `scope` properties by creating
 
 ### extend
 
-When `false` the `types` and `scopes` will be overwritten with your values. When `true` or unspecified the `types` and `scopes` you've defined will be added to the default values.
+When `false`, the `types` and `scopes` will be overwritten with your values. When `true` or unspecified, the `types` and `scopes` you've defined will be added to the default values.
 
 ### types
 
@@ -78,13 +78,13 @@ The following errors are specified and can be overwritten:
 {
     TYPE_AND_SUBJECT_REQUIRED: 'At least a type and subject is required',
     TYPE_SCOPE_MALFORMED: 'Type and scope should be formatted as \'type(scope):\'',
-    REQUIRE_SPACE_AFTER_COLON: 'add a space before subject',
-    NO_SPACE_BEFORE_COLON: 'no space before the colon',
+    REQUIRE_SPACE_AFTER_COLON: 'Add a space before subject',
+    NO_SPACE_BEFORE_COLON: 'No space before the colon',
     SUBJECT_ISSUE_MALFORMED: 'Subject and issue should be formatted as \'some subject ISS-123\'',
     JIRA_ISSUE_CAPITALIZED: 'JIRA reference should be in full caps',
     SUBJECT_REQUIRED: 'Subject is required, even if a JIRA issue is provided',
     SUBJECT_DONT_END_ON_CHARS: 'Subject should not end on dot (.) or colon (:)',
-    TYPE_INVALID:  `Type should be one of: %types%`,
+    TYPE_INVALID: `Type should be one of: %types%`,
     SCOPE_INVALID:`Type should be one of: %scopes%`,
     SCOPE_EMPTY: 'Scope should have a value or be left out entirely'
 }
@@ -120,3 +120,6 @@ Validates the commitMessage using the provided configuration object. If no confi
 
 It will return the validation object when the message was successfully validated, or will throw an error when a validation error has occured.
 
+---
+
+Derived from the Angular [Commit Messages Guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit)

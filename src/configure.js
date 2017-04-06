@@ -91,13 +91,13 @@ function _getDefaults () {
     defaults.errors = {
         TYPE_AND_SUBJECT_REQUIRED: 'At least a type and subject is required',
         TYPE_SCOPE_MALFORMED: 'Type and scope should be formatted as \'type(scope):\'',
-        REQUIRE_SPACE_AFTER_COLON: 'add a space before subject',
-        NO_SPACE_BEFORE_COLON: 'no space before the colon',
+        REQUIRE_SPACE_AFTER_COLON: 'Add a space before subject',
+        NO_SPACE_BEFORE_COLON: 'No space before the colon',
         SUBJECT_ISSUE_MALFORMED: 'Subject and issue should be formatted as \'some subject ISS-123\'',
         JIRA_ISSUE_CAPITALIZED: 'JIRA reference should be in full caps',
         SUBJECT_REQUIRED: 'Subject is required, even if a JIRA issue is provided',
         SUBJECT_DONT_END_ON_CHARS: 'Subject should not end on dot (.) or colon (:)',
-        TYPE_INVALID:  `Type should be one of: %types%`,
+        TYPE_INVALID: `Type should be one of: %types%`,
         SCOPE_INVALID:`Type should be one of: %scopes%`,
         SCOPE_EMPTY: 'Scope should have a value or be left out entirely'
     };
