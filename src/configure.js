@@ -23,6 +23,10 @@ function configure (config) {
                     parsedConfig.scopes = customConfig.scopes || [];
                 }
 
+                // filter types and scopes to only have unique values
+                parsedConfig.types = Array.from(new Set(parsedConfig.types));
+                parsedConfig.scopes = Array.from(new Set(parsedConfig.scopes));
+
                 parsedConfig.errors = _extendErrors(parsedConfig.errors, customConfig.errors || {});
 
             } catch (e) {
